@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\MemberController;
 use App\Http\Controllers\admin\OutletController;
 use App\Http\Controllers\admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -26,4 +27,5 @@ Route::prefix('admin')
 
         Route::resource('outlet', OutletController::class);
         Route::resource('user', UserController::class);
+        Route::resource('member', MemberController::class);
     });

@@ -29,15 +29,9 @@
                 </a>
             </li>
             <li>
-                <a href="pelanggan.php" class="waves-effect">
+                <a href="{{ route('member.index') }}" class="waves-effect">
                     <i class="fa fa-users fa-fw" aria-hidden="true"></i>
                     Pelanggan
-                </a>
-            </li>
-            <li>
-                <a href="transaksi.php" class="waves-effect">
-                    <i class="fa fa-shopping-cart fa-fw" aria-hidden="true"></i>
-                    Transaksi
                 </a>
             </li>
             <li>
