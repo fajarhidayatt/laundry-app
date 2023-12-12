@@ -35,7 +35,7 @@
                 </a>
             </li>
             <li>
-                <a href="laporan.php" class="waves-effect">
+                <a href="{{ route('report.index') }}" class="waves-effect">
                     <i class="fa fa-file-text fa-fw" aria-hidden="true"></i>
                     Laporan
                 </a>
