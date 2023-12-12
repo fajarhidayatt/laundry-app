@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\DashboardController;
 use App\Http\Controllers\admin\OutletController;
+use App\Http\Controllers\admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,4 +25,5 @@ Route::prefix('admin')
         Route::get('/', [DashboardController::class, 'index'])->name('admin');
 
         Route::resource('outlet', OutletController::class);
+        Route::resource('user', UserController::class);
     });

@@ -23,7 +23,7 @@
                 </a>
             </li>
             <li>
-                <a href="pengguna.php" class="waves-effect">
+                <a href="{{ route('user.index') }}" class="waves-effect">
                     <i class="fa fa-user fa-fw" aria-hidden="true"></i>
                     Pengguna
                 </a>
