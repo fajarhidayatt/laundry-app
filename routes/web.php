@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\admin\DashboardController;
+use App\Http\Controllers\admin\OutletController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::prefix('admin')
+    ->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('admin');
+
+        Route::resource('outlet', OutletController::class);
+    });
