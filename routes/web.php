@@ -7,6 +7,7 @@ use App\Http\Controllers\admin\ReportController;
 use App\Http\Controllers\admin\UserController;
 
 use App\Http\Controllers\Cashier\MemberController as CashierMemberController;
+use App\Http\Controllers\Cashier\PacketController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,4 +38,5 @@ Route::prefix('admin')
 Route::prefix('cashier')
     ->group(function () {
         Route::resource('member', CashierMemberController::class);
+        Route::resource('packet', PacketController::class);
     });
