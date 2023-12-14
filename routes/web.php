@@ -1,14 +1,20 @@
 <?php
 
-use App\Http\Controllers\admin\DashboardController;
-use App\Http\Controllers\admin\MemberController;
-use App\Http\Controllers\admin\OutletController;
-use App\Http\Controllers\admin\ReportController;
-use App\Http\Controllers\admin\UserController;
+/// Auth Controller
 use App\Http\Controllers\AuthController;
+
+/// Admin Controller
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\OutletController as AdminOutletController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\MemberController as AdminMemberController;
+use App\Http\Controllers\Admin\ReportController as AdminReportController;
+
+/// Cashier Controller
 use App\Http\Controllers\Cashier\MemberController as CashierMemberController;
 use App\Http\Controllers\Cashier\PacketController;
 use App\Http\Controllers\Cashier\TransactionController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,12 +36,12 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 Route::middleware('auth')
     ->prefix('admin')
     ->group(function () {
-        Route::get('/', [DashboardController::class, 'index'])->name('admin');
+        Route::get('/', [AdminDashboardController::class, 'index'])->name('admin');
 
-        Route::resource('outlet', OutletController::class);
-        Route::resource('user', UserController::class);
-        Route::resource('member', MemberController::class);
-        Route::get('/report', [ReportController::class, 'index'])->name('report.index');
+        Route::resource('outlet', AdminOutletController::class);
+        Route::resource('user', AdminUserController::class);
+        Route::resource('member', AdminMemberController::class);
+        Route::get('/report', [AdminReportController::class, 'index'])->name('report.index');
     })
     ->prefix('cashier')
     ->group(function () {
