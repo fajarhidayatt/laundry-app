@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-static-top m-b-0">
     <div class="navbar-header">
         <div class="top-left-part">
-            <a class="logo" href="index.php">
+            <a class="logo" href="/admin">
                 <b style="color:black">
                     LAUNDRY
                 </b>

@@ -9,40 +9,44 @@
                 <span class="hide-menu">Navigation</span>
             </h3>
         </div>
+        {{-- End Mobiel View --}}
         <ul class="nav" id="side-menu">
             <li style="padding: 70px 0 0;">
-                <a href="{{ route('admin') }}" class="waves-effect">
+                <a href="/admin" class="waves-effect">
                     <i class="fa fa-tachometer fa-fw" aria-hidden="true"></i>
-                    Dashboard
+                    <span>Dashboard</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('outlet.index') }}" class="waves-effect">
+                <a href="/admin/outlet" class="waves-effect">
                     <i class="fa fa-suitcase fa-fw" aria-hidden="true"></i>
-                    Outlet
+                    <span>Outlet</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('user.index') }}" class="waves-effect">
+                <a href="/admin/user" class="waves-effect">
                     <i class="fa fa-user fa-fw" aria-hidden="true"></i>
-                    Pengguna
+                    <span>Pengguna</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('member.index') }}" class="waves-effect">
+                <a href="/admin/member" class="waves-effect">
                     <i class="fa fa-users fa-fw" aria-hidden="true"></i>
-                    Pelanggan
+                    <span>Pelanggan</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('report.index') }}" class="waves-effect">
+                <a href="/admin/report" class="waves-effect">
                     <i class="fa fa-file-text fa-fw" aria-hidden="true"></i>
-                    Laporan
+                    <span>Laporan</span>
                 </a>
             </li>
         </ul>
         <div class="center p-20">
-            <a href="logout.php" class="btn btn-danger btn-block waves-effect waves-light">Logout</a>
+            <form action="/logout" method="post">
+                @csrf
+                <button class="btn btn-danger btn-block waves-effect waves-light">Logout</button>
+            </form>
         </div>
     </div>
 </div>
