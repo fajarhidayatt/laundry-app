@@ -9,88 +9,64 @@ use Illuminate\Http\Request;
 
 class OutletController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-
-        $outlets = Outlet::with('user')->get();
+        $outlets = Outlet::with('owner')->get();
 
         return view('admin.outlet.index', [
-            'title' => 'outlet',
-            'data' => $outlets
+            'outlets' => $outlets
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('admin.outlet.create', [
-            'title' => 'outlet',
-        ]);
+        return view('admin.outlet.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $data = $request->all();
 
         Outlet::create($data);
 
-        return redirect()->route('outlet.index')->with('success', true);
+        return redirect('/admin/outlet')->with([
+            'alert' => true,
+            'title' => 'Berhasil',
+            'message' => 'Berhasil tambah data outlet',
+            'type' => 'success'
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
-        $outlet = Outlet::with('user')->find($id);
-        $users = User::with('outlet')->where('role', 'owner')->get();
-
-        // dd($users);
+        $outlet = Outlet::with('owner')->find($id);
+        $users = User::with('outlet')->where('role', 'owner')->get(); /// hanya mengambil user dengan role `owner`
 
         return view('admin.outlet.edit', [
-            'title' => 'outlet',
             'outlet' => $outlet,
             'users' => $users
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        // dd($request->all());
         $outlet = Outlet::find($id);
 
-        // mengganti owner lama dengan owner baru
-        if ($request->owner_id_new) {
-            // mengganti outlet_id pada owner lama menjadi null
-            $oldOwner = User::find($outlet->user->id);
-            $oldOwner->update(['outlet_id' => null]);
+        if ($request->owner_id_new) { /// jika mengganti owner lama dengan owner baru
+            $oldOwner = User::find($outlet->owner->id);
+            $oldOwner->update([
+                'outlet_id' => null,
+            ]); /// mengganti `outlet_id` pada owner lama menjadi `null`
 
-            // mengganti outlet_id pada owner baru menjadi outlet yang dipilih
             $newOwner = User::find($request->owner_id_new);
-            $newOwner->update(['outlet_id' => $outlet->id]);
-        } else {
-            // mengganti outlet_id pada user menjadi outlet yang dipilih
+            $newOwner->update([
+                'outlet_id' => $outlet->id,
+            ]); /// mengganti `outlet_id` pada owner baru menjadi outlet yang dipilih
+        } else if ($request->owner_id) {
             $user = User::find($request->owner_id);
-            $user->update(['outlet_id' => $outlet->id]);
+            $user->update([
+                'outlet_id' => $outlet->id,
+            ]); /// mengganti `outlet_id` pada user menjadi outlet yang dipilih
         }
 
         $outlet->update([
@@ -99,18 +75,25 @@ class OutletController extends Controller
             'phone_number' => $request->phone_number
         ]);
 
-        return redirect()->route('outlet.index');
+        return redirect('/admin/outlet')->with([
+            'alert' => true,
+            'title' => 'Berhasil',
+            'message' => 'Berhasil ubah data outlet',
+            'type' => 'success'
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $outlet = Outlet::find($id);
 
         $outlet->delete();
 
-        return redirect()->route('outlet.index');
+        return redirect('/admin/outlet')->with([
+            'alert' => true,
+            'title' => 'Berhasil',
+            'message' => 'Berhasil hapus data outlet',
+            'type' => 'success'
+        ]);
     }
 }
