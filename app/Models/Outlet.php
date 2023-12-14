@@ -9,10 +9,14 @@ class Outlet extends Model
 {
     use HasFactory;
 
-    public function user()
+    protected $fillable = [
+        'name',
+        'address',
+        'phone_number'
+    ];
+
+    public function owner()
     {
         return $this->hasOne(User::class);
     }
-
-    protected $fillable = ['name', 'address', 'phone_number'];
 }

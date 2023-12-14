@@ -23,4 +23,24 @@ class Transaction extends Model
         'payment_status',
         'user_id',
     ];
+
+    public function detailTransaction()
+    {
+        return $this->hasOne(DetailTransaction::class);
+    }
+
+    public function member()
+    {
+        return $this->belongsTo(Member::class);
+    }
+
+    public function outlet()
+    {
+        return $this->belongsTo(Outlet::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
