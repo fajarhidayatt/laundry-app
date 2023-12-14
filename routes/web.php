@@ -5,7 +5,7 @@ use App\Http\Controllers\admin\MemberController;
 use App\Http\Controllers\admin\OutletController;
 use App\Http\Controllers\admin\ReportController;
 use App\Http\Controllers\admin\UserController;
-
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Cashier\MemberController as CashierMemberController;
 use App\Http\Controllers\Cashier\PacketController;
 use App\Http\Controllers\Cashier\TransactionController;
@@ -22,11 +22,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::redirect('/', '/login');
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
-Route::prefix('admin')
+Route::middleware('auth')
+    ->prefix('admin')
     ->group(function () {
         Route::get('/', [DashboardController::class, 'index'])->name('admin');
 
@@ -34,29 +36,20 @@ Route::prefix('admin')
         Route::resource('user', UserController::class);
         Route::resource('member', MemberController::class);
         Route::get('/report', [ReportController::class, 'index'])->name('report.index');
-    });
-
-Route::prefix('cashier')
+    })
+    ->prefix('cashier')
     ->group(function () {
-        /// transaction menu index
+        Route::redirect('/', '/cashier/transaction');
+
         Route::get('/transaction', [TransactionController::class, 'index']);
-        /// transaction find member
         Route::get('/transaction/find', [TransactionController::class, 'find']);
-        /// transaction create view
         Route::get('/transaction/{memberId}/create', [TransactionController::class, 'create']);
-        /// transaction store data
         Route::post('/transaction', [TransactionController::class, 'store']);
-        /// success create transaction
         Route::get('/transaction/{id}/success', [TransactionController::class, 'success']);
-        /// find confirmation transaction
         Route::get('/transaction/confirmation', [TransactionController::class, 'confirmation']);
-        /// transaction payment
         Route::get('/transaction/{id}/payment', [TransactionController::class, 'payment']);
-        /// transaction payment proccess
         Route::put('/transaction/{id}', [TransactionController::class, 'deal']);
-        /// transaction done
         Route::get('/transaction/{id}/done', [TransactionController::class, 'done']);
-        /// transaction detail
         Route::get('/transaction/{id}', [TransactionController::class, 'show']);
 
         Route::resource('member', CashierMemberController::class);
