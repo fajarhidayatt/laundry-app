@@ -1,7 +1,6 @@
 @extends('admin.partials.main')
 
 @section('content')
-
 <div class="container-fluid">
     <div class="row bg-title">
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
@@ -13,9 +12,9 @@
             <div class="white-box">
                 <div class="row">
                     <div class="col-md-6">
-                        <a href="{{ route('user.create') }}" class="btn btn-primary box-title">
+                        <a href="/admin/user/create" class="btn btn-primary box-title">
                             <i class="fa fa-plus fa-fw"></i>
-                            Tambah
+                            <span>Tambah</span>
                         </a>
                     </div>
                     <div class="col-md-6 text-right">
@@ -44,10 +43,10 @@
                                     <td>{{ $user->role }}</td>
                                     <td align="center">
                                         <div style="display: flex;">
-                                            <a href="{{ route('user.edit', $user->id) }}" data-toggle="tooltip" data-placement="bottom" title="Edit" class="btn btn-success">
+                                            <a href="/admin/user/{{ $user->id }}/edit" data-toggle="tooltip" data-placement="bottom" title="Edit" class="btn btn-success">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <form action={{ route('user.destroy', $user->id) }} method="post">
+                                            <form action="/admin/user/{{ $user->id }}" method="post">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" data-toggle="tooltip" data-placement="bottom" title="Hapus" class="btn btn-danger">
@@ -69,5 +68,4 @@
         </div>
     </div>
 </div>
-
 @endsection

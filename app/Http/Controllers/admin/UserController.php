@@ -9,9 +9,6 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $users = User::all();
@@ -21,9 +18,6 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $outlets = Outlet::all();
@@ -33,29 +27,20 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $data = $request->all();
 
         User::create($data);
 
-        return redirect()->route('user.index');
+        return redirect('/admin/user')->with([
+            'alert' => true,
+            'title' => 'Berhasil',
+            'message' => 'Berhasil tambah data user',
+            'type' => 'success'
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $user = User::find($id);
@@ -67,15 +52,13 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        // dd($request->all());
+
         $data = $request->all();
         $user = User::find($id);
 
+        /// cara lain untuk meng-update data, menggunakan method `save()`
         $user['name'] = $data['name'];
         $user['username'] = $data['username'];
         $user['role'] = $data['role'];
@@ -87,18 +70,25 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('user.index');
+        return redirect('/admin/user')->with([
+            'alert' => true,
+            'title' => 'Berhasil',
+            'message' => 'Berhasil ubah data user',
+            'type' => 'success'
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $user = User::find($id);
 
         $user->delete();
 
-        return redirect()->route('user.index');
+        return redirect('/admin/user')->with([
+            'alert' => true,
+            'title' => 'Berhasil',
+            'message' => 'Berhasil hapus data user',
+            'type' => 'success'
+        ]);
     }
 }
