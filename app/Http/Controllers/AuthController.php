@@ -27,7 +27,7 @@ class AuthController extends Controller
             } else if (Auth::user()->role === 'owner') {
                 return redirect('/owner');
             } else if (Auth::user()->role === 'kasir') {
-                return redirect('/kasir');
+                return redirect('/cashier');
             }
         }
 
