@@ -8,9 +8,6 @@ use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $members = Member::all();
@@ -20,37 +17,25 @@ class MemberController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('admin.member.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $data = $request->all();
 
         Member::create($data);
 
-        return redirect()->route('member.index');
+        return redirect('/admin/member')->with([
+            'alert' => true,
+            'title' => 'Berhasil',
+            'message' => 'Berhasil tambah data pelanggan',
+            'type' => 'success'
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $member = Member::find($id);
@@ -60,9 +45,6 @@ class MemberController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         $data = $request->all();
@@ -70,18 +52,25 @@ class MemberController extends Controller
 
         $member->update($data);
 
-        return redirect()->route('member.index');
+        return redirect('/admin/member')->with([
+            'alert' => true,
+            'title' => 'Berhasil',
+            'message' => 'Berhasil ubah data pelanggan',
+            'type' => 'success'
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $member = Member::find($id);
 
         $member->delete();
 
-        return redirect()->route('member.index');
+        return redirect('/admin/member')->with([
+            'alert' => true,
+            'title' => 'Berhasil',
+            'message' => 'Berhasil hapus data pelanggan',
+            'type' => 'success'
+        ]);
     }
 }
