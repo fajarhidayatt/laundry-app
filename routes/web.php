@@ -53,6 +53,7 @@ Route::middleware('auth')
 
         /// transaction detail
         Route::get('/transaction/{id}/detail', [CashierTransactionController::class, 'show']);
+        Route::put('/transaction/{id}/status', [CashierTransactionController::class, 'updateStatus']);
 
         /// transaction create proccess
         Route::get('/transaction/find', [CashierTransactionController::class, 'find']);

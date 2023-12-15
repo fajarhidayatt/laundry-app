@@ -8,8 +8,15 @@
         </div>
         <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
             <ol class="breadcrumb">
-                <li><a href="#">Transaksi</a></li>
-                <li><a href="#">Tambah Transaksi</a></li>
+                <li>
+                    <span>Transaksi</span>
+                </li>
+                <li>
+                    <span>Pilih Pelanggan</span>
+                </li>
+                <li>
+                    <span>Tambah Transaksi</span>
+                </li>
             </ol>
         </div>
     </div>
@@ -18,10 +25,15 @@
             <div class="white-box">
                 <div class="row">
                     <div class="col-md-6">
-                        <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-primary box-title"><i class="fa fa-arrow-left fa-fw"></i> Kembali</a>
+                        <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-primary box-title">
+                            <i class="fa fa-arrow-left fa-fw"></i>
+                            <span>Kembali</span>
+                        </a>
                     </div>
                     <div class="col-md-6 text-right">
-                        <button id="btn-refresh" class="btn btn-primary box-title text-right" title="Refresh Data"><i class="fa fa-refresh" id="ic-refresh"></i></button>
+                        <button id="btn-refresh" class="btn btn-primary box-title text-right" title="Refresh Data">
+                            <i class="fa fa-refresh" id="ic-refresh"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -47,19 +59,19 @@
                         <input type="text" name="member_name" class="form-control" value="{{ $member->name }}" disabled>
                     </div>
                     <div class="form-group">
-                        <label>Pilih Paket</label>
-                        <select name="packet_id" class="form-control">
+                        <label for="packet_id">Pilih Paket</label>
+                        <select name="packet_id" class="form-control" required>
                             @foreach ($packets as $packet)
-                                <option value="{{ $packet->id }}">{{ $packet->name }} (Rp. {{ $packet->price }})</option>
+                                <option value="{{ $packet->id }}">{{ $packet->name }} (Rp. {{ number_format($packet->price, 0, ",", ".") }})</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="qty">Jumlah</label>
-                        <input type="number" name="qty" id="qty" class="form-control" value="0">
+                        <input type="number" name="qty" id="qty" class="form-control" value="0" required>
                     </div>
                     <div class="form-group">
-                        <label for="additional_cost">Biaya Tambahan</label>
+                        <label for="additional_cost">Biaya Tambahan (Rp.)</label>
                         <input type="number" name="additional_cost" id="additional_cost" class="form-control" value="0">
                     </div>
                     <div class="form-group">
@@ -67,7 +79,7 @@
                         <input type="number" name="discount" id="discount" class="form-control" value="0">
                     </div>
                     <div class="form-group">
-                        <label for="tax">Pajak</label>
+                        <label for="tax">Pajak (%)</label>
                         <input type="number" name="tax" id="tax" class="form-control" value="0">
                     </div>
                     <div class="text-right">

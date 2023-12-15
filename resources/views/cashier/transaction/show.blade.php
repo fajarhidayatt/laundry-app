@@ -8,8 +8,12 @@
         </div>
         <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
             <ol class="breadcrumb">
-                <li><a href="outlet.php">Transaksi</a></li>
-                <li><a href="#">Detail Transaksi</a></li>
+                <li>
+                    <span>Transaksi</span>
+                </li>
+                <li>
+                    <span>Detail Transaksi</span>
+                </li>
             </ol>
         </div>
     </div>
@@ -18,7 +22,10 @@
             <div class="white-box">
                 <div class="row">
                     <div class="col-md-6">
-                        <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-primary box-title"><i class="fa fa-arrow-left fa-fw"></i> Kembali</a>
+                        <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-primary box-title">
+                            <i class="fa fa-arrow-left fa-fw"></i>
+                            <span>Kembali</span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -27,71 +34,72 @@
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <div class="white-box">
-                <form method="post" action="">
+                <form action="/cashier/transaction/{{ $transaction->id }}/status" method="post">
+                    @csrf
+                    @method('PUT')
                     <div class="form-group">
                         <label>Kode Invoice</label>
-                        <input type="text" class="form-control" value="{{ $transaction->invoice }}">
+                        <input type="text" class="form-control" value="{{ $transaction->invoice }}" disabled>
                     </div>
                     <div class="form-group">
                         <label>Outlet</label>
-                        <input type="text" class="form-control" value="{{ $transaction->outlet_id }}">
+                        <input type="text" class="form-control" value="{{ $transaction->outlet->name }}" disabled>
                     </div>
                     <div class="form-group">
                         <label>Pelanggan</label>
-                        <input type="text" class="form-control" value="{{ $transaction->member_id }}">
+                        <input type="text" class="form-control" value="{{ $transaction->member->name }}" disabled>
                     </div>
                     <div class="form-group">
                         <label>Jenis Paket</label>
-                        <input type="text" class="form-control" value="{{ 'Kiloan' }}">
+                        <input type="text" class="form-control" value="{{ $transaction->detailTransaction->packet->name }}" disabled>
                     </div>
                     <div class="form-group">
                         <label>Jumlah</label>
-                        <input type="text" class="form-control" value="{{ 12 }}">
+                        <input type="text" class="form-control" value="{{ $transaction->detailTransaction->qty }}" disabled>
                     </div>
                     <div class="form-group">
                         <label>Total Harga</label>
-                        <input type="text" class="form-control" value="{{ 10 }}">
+                        <input type="text" class="form-control" value="Rp. {{ number_format($transaction->detailTransaction->total_price, 0, ",", ".") }}" disabled>
                     </div>
-                    {{-- <?php if ($data['total_bayar'] > 0) : ?>
+                    @if ($transaction->payment_status === 'lunas')
                         <div class="form-group">
-                            <label>Total Bayar</label>
-                            <input type="text" class="form-control" value="{{  }}">
+                            <label>Uang Bayar</label>
+                            <input type="text" class="form-control" value="Rp. {{ number_format($transaction->detailTransaction->total_payment, 0, ",", ".") }}" disabled>
                         </div>
                         <div class="form-group">
-                            <label>Di Bayar Pada Tanggal </label>
-                            <input type="text" class="form-control" value="<?= $data['tgl_pembayaran'] ?>">
+                            <label>Tanggal Pembayaran</label>
+                            <input type="text" class="form-control" value="{{ $transaction->payment_date }}" disabled>
                         </div>
-                    <?php else : ?>
+                    @else
                         <div class="form-group">
-                            <label>Total Bayar</label>
-                            <input type="text" class="form-control" value="Belum Melakukan Pembayaran">
+                            <label>Uang Bayar</label>
+                            <input type="text" class="form-control" value="Belum melakukan pembayaran" disabled>
                         </div>
                         <div class="form-group">
                             <label>Batas Waktu Pembayaran</label>
-                            <input type="text" class="form-control" value="<?= $data['batas_waktu'] ?>">
+                            <input type="text" class="form-control" value="Rp. {{ number_format($transaction->time_limit, 0, ",", ".") }}" disabled>
                         </div>
-                    <?php endif; ?>
+                    @endif
                     <div class="form-group">
-                        <label>Status Transaksi</label>
-                        <select name="status" class="form-control" <?php if ($data['status'] == 'diambil') : ?> readonly='' disabled <?php endif; ?>>
-                            <?php foreach ($status as $key) : ?>
-                                <?php if ($key == $data['status']) : ?>
-                                    <option value="<?= $key ?>" selected><?= $key ?></option>
-                                <?php endif ?>
-                                <option value="<?= $key ?>"><?= $key ?></option>
-                            <?php endforeach ?>
+                        <label for="status">Status Transaksi</label>
+                        <select name="status" id="status" class="form-control" {{ $transaction->status === 'diambil' ? 'disabled' : '' }}>
+                            <option value="{{ $transaction->status }}" selected hidden>{{ $transaction->status }}</option>
+                            <option value="baru">baru</option>
+                            <option value="proses">proses</option>
+                            <option value="selesai">selesai</option>
+                            <option value="diambil" {{ $transaction->payment_status !== 'lunas' ? 'disabled' : '' }}>diambil</option>
                         </select>
                     </div>
-                    <?php if ($data['status'] == 'diambil') { ?>
+                    @if ($transaction->status === 'diambil')
                         <small>Transaksi telah selesai <i class="fa fa-check fa-fw"></i></small>
                         <div class="text-right">
-                            <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-primary box-title"> OK</a>
+                            <a href="javascript:void(0)" class="btn btn-primary box-title" onclick="window.history.back();">OK</a>
                         </div>
-                    <?php } else { ?>
+                    @else
                         <div class="text-right">
                             <button type="submit" name="btn-simpan" class="btn btn-primary">Ubah</button>
                         </div>
-                    <?php } ?> --}}
+                    @endif
                 </form>
             </div>
         </div>

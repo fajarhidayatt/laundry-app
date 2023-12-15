@@ -17,4 +17,9 @@ class DetailTransaction extends Model
         'info',
         'total_payment',
     ];
+
+    public function packet()
+    {
+        return $this->belongsTo(Packet::class);
+    }
 }

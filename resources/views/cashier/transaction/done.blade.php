@@ -6,11 +6,6 @@
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
             <h4 class="page-title">Transaski Dibayar</h4>
         </div>
-        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-            <ol class="breadcrumb">
-                <li><a href="#">Paket</a></li>
-            </ol>
-        </div>
     </div>
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
@@ -26,11 +21,11 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <h3>Pesanan Atas Nama {{ 'Jhon' }} Berhasil Di Bayar</h3>
-                        <strong>Kode Invoice {{ $transaction->invoice }}</strong><br><br>
-                        <strong>Total Pembayaran Rp.{{ 1000 }}</strong><br>
-                        <strong>Total Uang Bayar Rp.{{ 20000 }}</strong><br>
-                        <strong>Kembalian Rp.{{ 1000 }}</strong><br><br>
+                        <h3>Pesanan Atas Nama <strong>{{ $transaction->member->name }}</strong> Berhasil Di Bayar</h3>
+                        <strong>Kode Invoice {{ $transaction->invoice }}</strong><br>
+                        <strong>Total Harga Rp. {{ number_format($transaction->detailTransaction->total_price, 0, ",", ".") }}</strong><br>
+                        <strong>Uang Bayar Rp. {{ number_format($transaction->detailTransaction->total_payment, 0, ",", ".") }}</strong><br>
+                        <strong>Kembalian Rp. {{ number_format($transaction->detailTransaction->total_payment - $transaction->detailTransaction->total_price, 0, ",", ".") }}</strong><br><br>
                         <a href="/cashier/transaction" class="btn btn-primary">Kembali Ke Menu Utama</a>
                     </div>
                 </div>

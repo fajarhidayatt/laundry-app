@@ -1,15 +1,10 @@
 @extends('cashier.partials.main')
 
 @section('content')
-    <div class="container-fluid">
+<div class="container-fluid">
     <div class="row bg-title">
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
             <h4 class="page-title">Berhasil membuat pesanan</h4>
-        </div>
-        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-            <ol class="breadcrumb">
-                <li><a href="#">Paket</a></li>
-            </ol>
         </div>
     </div>
     <div class="row">
@@ -26,9 +21,9 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 text-center">
-                        <h3>Pesanan Atas Nama {{ 'Jhon' }} Behasil Di Simpan</h3>
+                        <h3>Pesanan Atas Nama <strong>{{ $transaction->member->name }}</strong> Behasil Di Simpan</h3>
                         <strong>Kode Invoice {{ $transaction->invoice }} </strong><br>
-                        <strong>Total Pembayaran {{ 1000 }}</strong><br><br>
+                        <strong>Total Pembayaran Rp. {{ number_format($transaction->detailTransaction->total_price, 0, ",", ".") }}</strong><br><br>
                         <a href="/cashier/transaction" class="btn btn-primary">Kembali Ke Menu Utama</a>
                     </div>
                 </div>

@@ -10,15 +10,13 @@ use App\Models\Packet;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        $transactions = Transaction::all();
+        $transactions = Transaction::with(['member', 'detailTransaction'])->get();
 
         return view('cashier.transaction.index', [
             'transactions' => $transactions
@@ -34,19 +32,14 @@ class TransactionController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create(string $memberId)
     {
-        $outlet_id = 4;
+        $outletId = Auth::user()->outlet_id;
 
-        $invoice = 'DRY' . Carbon::now()->format('Ymdsi');
-        $outlet = Outlet::find($outlet_id);
-        $member = Member::find($memberId);
-        $packets = Packet::where('outlet_id', $outlet_id)->get();
-
-        // dd($invoice);
+        $invoice = 'DRY' . Carbon::now()->format('Ymdsi'); /// generate kode `invoice`
+        $outlet = Outlet::find($outletId); /// ambil data outlet berdasarkan `outlet_id` kasir
+        $member = Member::find($memberId); /// ambil data member berdasarkan yang dipilih
+        $packets = Packet::where('outlet_id', $outletId)->get(); /// ambil data paket berdasarkan `outlet_id`
 
         return view('cashier.transaction.create', [
             'invoice' => $invoice,
@@ -56,15 +49,11 @@ class TransactionController extends Controller
         ]);
     }
 
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $userId = 3;
-        $date = Carbon::now('Asia/Jakarta')->toDateTimeString();
-        $timeLimit = Carbon::now('Asia/Jakarta')->addWeek(1)->toDateTimeString();
+        $userId = Auth::user()->id;
+        $date = Carbon::now('Asia/Jakarta')->toDateTimeString(); /// dapatkan tanggal dan waktu sekarang
+        $timeLimit = Carbon::now('Asia/Jakarta')->addWeek(1)->toDateTimeString(); /// masa kadaluarsa ditambah 1 minggu
 
         $transaction = Transaction::create([
             'outlet_id' => $request->outlet_id,
@@ -81,7 +70,12 @@ class TransactionController extends Controller
         ]);
 
         $packet = Packet::find($request->packet_id);
-        $totalPrice = $packet->price * $request->qty + $request->additional_cost;
+
+        $getTotalPrice = $packet->price * $request->qty + $request->additional_cost; /// harga_paket * qty + biaya_tambahan
+        $getDiscount = $getTotalPrice * ($request->discount / 100); /// total_harga * (diskon / 100)
+        $getTax = $getTotalPrice * ($request->tax / 100); /// total_harga * (pajak / 100)
+
+        $totalPrice = $getTotalPrice - $getDiscount + $getTax; /// total_harga - diskon + pajak
 
         DetailTransaction::create([
             'transaction_id' => $transaction->id,
@@ -95,7 +89,7 @@ class TransactionController extends Controller
 
     public function success($id)
     {
-        $transaction = Transaction::find($id);
+        $transaction = Transaction::with(['member', 'detailTransaction'])->find($id);
 
         return view('cashier.transaction.success', [
             'transaction' => $transaction
@@ -104,7 +98,9 @@ class TransactionController extends Controller
 
     public function confirmation()
     {
-        $transactions = Transaction::all();
+        $transactions = Transaction::with(['member', 'detailTransaction'])
+            ->where('payment_status', 'belum')
+            ->get();
 
         return view('cashier.transaction.confirmation', [
             'transactions' => $transactions
@@ -113,7 +109,8 @@ class TransactionController extends Controller
 
     public function payment(string $id)
     {
-        $transaction = Transaction::find($id);
+        $transaction = Transaction::with(['member', 'detailTransaction'])
+            ->find($id);
 
         return view('cashier.transaction.payment', [
             'transaction' => $transaction
@@ -122,63 +119,61 @@ class TransactionController extends Controller
 
     public function deal(Request $request, string $id)
     {
-        // dd($request->all());
         $paymentDate = Carbon::now('asia/jakarta')->toDateTimeString();
 
-        // dd($detailTransaction);
-
         if ($request->total_payment < $request->total_price) {
-            return redirect("/cashier/transaction/$id/payment");
+            return redirect("/cashier/transaction/$id/payment")->with([
+                'alert' => true,
+                'title' => 'Gagal',
+                'message' => 'Jumlah uang pembayaran kurang',
+                'type' => 'error'
+            ]);
         }
 
         $transaction = Transaction::find($id);
-        $transaction->update(['payment_date' => $paymentDate]);
+        $transaction->update([
+            'payment_date' => $paymentDate,
+            'payment_status' => 'lunas',
+        ]); /// update status pembayaran dan tanggal pembayaran
 
         $detailTransaction = detailTransaction::where('transaction_id', $id)->first();
-        $detailTransaction->update(['total_payment' => $request->total_payment]);
+        $detailTransaction->update([
+            'total_payment' => $request->total_payment,
+        ]); /// update jumlah pembayaran
 
         return redirect("/cashier/transaction/$id/done");
     }
 
     public function done(string $id)
     {
-        $transaction = Transaction::find($id);
+        $transaction = Transaction::with(['member', 'detailTransaction'])->find($id);
 
         return view('cashier.transaction.done', [
             'transaction' => $transaction
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        $transaction = Transaction::find($id);
+        $transaction = Transaction::with(['member', 'outlet', 'detailTransaction'])->find($id);
 
         return view('cashier.transaction.show', [
             'transaction' => $transaction
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function updateStatus(Request $request, string $id)
     {
-    }
+        $transaction = Transaction::find($id);
+        $transaction->update([
+            'status' => $request->status,
+        ]); /// update status transaksi
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
+        return redirect('/cashier/transaction')->with([
+            'alert' => true,
+            'title' => 'Berhasil',
+            'message' => 'Berhasil update status transaksi',
+            'type' => 'success'
+        ]);
     }
 }
