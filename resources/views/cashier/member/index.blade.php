@@ -12,9 +12,9 @@
             <div class="white-box">
                 <div class="row">
                     <div class="col-md-6">
-                        <a href="{{ route('member.create') }}" class="btn btn-primary box-title">
+                        <a href="/cashier/member/create" class="btn btn-primary box-title">
                             <i class="fa fa-plus fa-fw"></i>
-                            Tambah
+                            <span>Tambah</span>
                         </a>
                     </div>
                     <div class="col-md-6 text-right">
@@ -32,7 +32,7 @@
                                 <th>Alamat</th>
                                 <th>JK</th>
                                 <th>Telepon</th>
-                                <th>No KTP</th>
+                                <th>NIK</th>
                                 <th width="15%">Aksi</th>
                             </tr>
                         </thead>
@@ -47,10 +47,10 @@
                                     <td>{{ $member->nik }}</td>
                                     <td align="center">
                                         <div style="display: flex;">
-                                            <a href="{{ route('member.edit', $member->id) }}" data-toggle="tooltip" data-placement="bottom" title="Edit" class="btn btn-success">
+                                            <a href="/cashier/member/{{ $member->id }}/edit" data-toggle="tooltip" data-placement="bottom" title="Edit" class="btn btn-success">
                                                 <i class="fa fa-edit"></i>
                                             </a>
-                                            <form action={{ route('member.destroy', $member->id) }} method="post">
+                                            <form action="/cashier/member/{{ $member->id }}" method="post">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" data-toggle="tooltip" data-placement="bottom" title="Hapus" class="btn btn-danger">

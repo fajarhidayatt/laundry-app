@@ -4,12 +4,16 @@
 <div class="container-fluid">
     <div class="row bg-title">
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-            <h4 class="page-title">Data Pelanggan</h4>
+            <h4 class="page-title">Ubah Pelanggan</h4>
         </div>
         <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
             <ol class="breadcrumb">
-                <li><a href="#">Pelanggan</a></li>
-                <li><a href="#">Tambah Pelanggan</a></li>
+                <li>
+                    <span>Pelanggan</span>
+                </li>
+                <li>
+                    <span>Ubah Pelanggan</span>
+                </li>
             </ol>
         </div>
     </div>
@@ -18,10 +22,15 @@
             <div class="white-box">
                 <div class="row">
                     <div class="col-md-6">
-                        <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-primary box-title"><i class="fa fa-arrow-left fa-fw"></i> Kembali</a>
+                        <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-primary box-title">
+                            <i class="fa fa-arrow-left fa-fw"></i>
+                            <span>Kembali</span>
+                        </a>
                     </div>
                     <div class="col-md-6 text-right">
-                        <button id="btn-refresh" class="btn btn-primary box-title text-right" title="Refresh Data"><i class="fa fa-refresh" id="ic-refresh"></i></button>
+                        <button id="btn-refresh" class="btn btn-primary box-title text-right" title="Refresh Data">
+                            <i class="fa fa-refresh" id="ic-refresh"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -30,24 +39,24 @@
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <div class="white-box">
-                <form method="post" action="{{ route('member.update', $member->id) }}">
+                <form action="/cashier/member/{{ $member->id }}" method="post">
                     @csrf
                     @method('PUT')
                     <div class="form-group">
                         <label for="nik">NIK</label>
-                        <input type="number" name="nik" id="nik" value="{{ $member->nik }}" class="form-control">
+                        <input type="number" name="nik" id="nik" class="form-control" required value="{{ $member->nik }}">
                     </div>
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" name="name" id="name" value="{{ $member->name }}" class="form-control">
+                        <label for="name">Nama</label>
+                        <input type="text" name="name" id="name" class="form-control" required  value="{{ $member->name }}">
                     </div>
                     <div class="form-group">
                         <label for="address">Alamat</label>
-                        <input type="text" name="address" id="address" value="{{ $member->address }}" class="form-control">
+                        <textarea name="address" id="address" class="form-control" required>{{ $member->address }}</textarea>
                     </div>
                     <div class="form-group">
                         <label for="phone_number">Nomor Telepon</label>
-                        <input type="text" name="phone_number" id="phone_number" value="{{ $member->phone_number }}" class="form-control">
+                        <input type="number" name="phone_number" id="phone_number" class="form-control" required value="{{ $member->phone_number }}">
                     </div>
                     <div class="form-group">
                         <label for="gender">Jenis Kelamin</label>

@@ -1,15 +1,19 @@
-@extends('cashier.partials.main');
+@extends('cashier.partials.main')
 
 @section('content')
 <div class="container-fluid">
     <div class="row bg-title">
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-            <h4 class="page-title">Data Pelanggan</h4>
+            <h4 class="page-title">Tambah Pelanggan</h4>
         </div>
         <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
             <ol class="breadcrumb">
-                <li><a href="#">Pelanggan</a></li>
-                <li><a href="#" style="pointer-events: none;">Tambah Pelanggan</a></li>
+                <li>
+                    <span>Pelanggan</span>
+                </li>
+                <li>
+                    <span>Tambah Pelanggan</span>
+                </li>
             </ol>
         </div>
     </div>
@@ -18,10 +22,15 @@
             <div class="white-box">
                 <div class="row">
                     <div class="col-md-6">
-                        <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-primary box-title"><i class="fa fa-arrow-left fa-fw"></i> Kembali</a>
+                        <a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-primary box-title">
+                            <i class="fa fa-arrow-left fa-fw"></i> 
+                            <span>Kembali</span>
+                        </a>
                     </div>
                     <div class="col-md-6 text-right">
-                        <button id="btn-refresh" class="btn btn-primary box-title text-right" title="Refresh Data"><i class="fa fa-refresh" id="ic-refresh"></i></button>
+                        <button id="btn-refresh" class="btn btn-primary box-title text-right" title="Refresh Data">
+                            <i class="fa fa-refresh" id="ic-refresh"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -30,27 +39,27 @@
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <div class="white-box">
-                <form action="{{ route('member.store') }}" method="post">
+                <form action="/cashier/member" method="post">
                     @csrf
                     <div class="form-group">
                         <label for="nik">NIK</label>
-                        <input type="number" name="nik" id="nik" class="form-control">
+                        <input type="number" name="nik" id="nik" class="form-control" required>
                     </div>
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" name="name" id="name" class="form-control">
+                        <label for="name">Nama</label>
+                        <input type="text" name="name" id="name" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="address">Alamat</label>
-                        <input type="text" name="address" id="address" class="form-control">
+                        <textarea name="address" id="address" class="form-control" required></textarea>
                     </div>
                     <div class="form-group">
                         <label for="phone_number">Nomor Telepon</label>
-                        <input type="text" name="phone_number" id="phone_number" class="form-control">
+                        <input type="number" name="phone_number" id="phone_number" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="gender">Jenis Kelamin</label>
-                        <select name="gender" id="gender" class="form-control">
+                        <select name="gender" id="gender" class="form-control" required>
                             <option value="L">Laki-laki</option>
                             <option value="P">Perempuan</option>
                         </select>
