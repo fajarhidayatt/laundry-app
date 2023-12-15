@@ -6,12 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Outlet;
 use App\Models\Packet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PacketController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $packets = Packet::all();
@@ -21,55 +19,39 @@ class PacketController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $outlets = Outlet::all();
+        $outletId = Auth::user()->outlet_id;
+        $outlet = Outlet::find($outletId);
 
         return view('cashier.packet.create', [
-            'outlets' => $outlets
+            'outlet' => $outlet
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $data = $request->all();
 
         Packet::create($data);
 
-        return redirect('cashier/packet');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $packet = Packet::find($id);
-        $outlets = Outlet::all();
-
-        return view('cashier.packet.edit', [
-            'packet' => $packet,
-            'outlets' => $outlets
+        return redirect('/cashier/packet')->with([
+            'alert' => true,
+            'title' => 'Berhasil',
+            'message' => 'Berhasil tambah data paket',
+            'type' => 'success'
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+    public function edit(string $id)
+    {
+        $packet = Packet::with('outlet')->find($id);
+
+        return view('cashier.packet.edit', [
+            'packet' => $packet,
+        ]);
+    }
+
     public function update(Request $request, string $id)
     {
         $data = $request->all();
@@ -77,18 +59,25 @@ class PacketController extends Controller
 
         $packet->update($data);
 
-        return redirect('/cashier/packet');
+        return redirect('/cashier/packet')->with([
+            'alert' => true,
+            'title' => 'Berhasil',
+            'message' => 'Berhasil ubah data paket',
+            'type' => 'success'
+        ]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $packet = Packet::find($id);
 
         $packet->delete();
 
-        return redirect('/cashier/packet');
+        return redirect('/cashier/packet')->with([
+            'alert' => true,
+            'title' => 'Berhasil',
+            'message' => 'Berhasil hapus data paket',
+            'type' => 'success'
+        ]);
     }
 }

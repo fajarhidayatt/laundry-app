@@ -19,4 +19,9 @@ class Outlet extends Model
     {
         return $this->hasOne(User::class);
     }
+
+    public function packets()
+    {
+        return $this->hasMany(Packet::class);
+    }
 }

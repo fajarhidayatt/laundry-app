@@ -15,4 +15,9 @@ class Packet extends Model
         'outlet_id',
         'type',
     ];
+
+    public function outlet()
+    {
+        return $this->belongsTo(Outlet::class);
+    }
 }

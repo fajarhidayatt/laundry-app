@@ -6,21 +6,21 @@
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
             <h4 class="page-title">Data Paket</h4>
         </div>
-        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-            <ol class="breadcrumb">
-                <li><a href="#">Paket</a></li>
-            </ol>
-        </div>
     </div>
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <div class="white-box">
                 <div class="row">
                     <div class="col-md-6">
-                        <a href="/cashier/packet/create" class="btn btn-primary box-title"><i class="fa fa-plus fa-fw"></i> Tambah</a>
+                        <a href="/cashier/packet/create" class="btn btn-primary box-title">
+                            <i class="fa fa-plus fa-fw"></i> 
+                            <span>Tambah</span>
+                        </a>
                     </div>
                     <div class="col-md-6 text-right">
-                        <button id="btn-refresh" class="btn btn-primary box-title text-right" title="Refresh Data"><i class="fa fa-refresh" id="ic-refresh"></i></button>
+                        <button id="btn-refresh" class="btn btn-primary box-title text-right" title="Refresh Data">
+                            <i class="fa fa-refresh" id="ic-refresh"></i>
+                        </button>
                     </div>
                 </div>
                 <div class="table-responsive">
@@ -31,7 +31,6 @@
                                 <th>Nama Paket</th>
                                 <th>Jenis</th>
                                 <th>Harga</th>
-                                <th>Outlet</th>
                                 <th width="15%">Aksi</th>
                             </tr>
                         </thead>
@@ -42,9 +41,8 @@
                                     <td>{{ $packet->name }}</td>
                                     <td>{{ $packet->type }}</td>
                                     <td>{{ $packet->price }}</td>
-                                    <td>{{ $packet->outlet_id }}</td>
                                     <td align="center">
-                                        <div class="btn-group" style="display: flex;" role="group" aria-label="Basic example">
+                                        <div class="btn-group" style="display: flex;" role="group">
                                             <a href="/cashier/packet/{{ $packet->id }}/edit" data-toggle="tooltip" data-placement="bottom" title="Edit" class="btn btn-success">
                                                 <i class="fa fa-edit"></i>
                                             </a>
@@ -60,7 +58,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" class="text-center">Tidak ada paket</td>
+                                    <td colspan="5" class="text-center">Tidak ada paket</td>
                                 </tr>
                             @endforelse
                         </tbody>
