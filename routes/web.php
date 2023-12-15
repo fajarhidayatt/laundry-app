@@ -11,10 +11,10 @@ use App\Http\Controllers\Admin\MemberController as AdminMemberController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
 
 /// Cashier Controller
+use App\Http\Controllers\Cashier\TransactionController as CashierTransactionController;
 use App\Http\Controllers\Cashier\MemberController as CashierMemberController;
-use App\Http\Controllers\Cashier\PacketController;
-use App\Http\Controllers\Cashier\TransactionController;
-
+use App\Http\Controllers\Cashier\PacketController as CashierPacketController;
+use App\Http\Controllers\Cashier\ReportController as CashierReportController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,28 +36,38 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 Route::middleware('auth')
     ->prefix('admin')
     ->group(function () {
-        Route::get('/', [AdminDashboardController::class, 'index'])->name('admin');
+        Route::get('/', [AdminDashboardController::class, 'index']);
 
         Route::resource('outlet', AdminOutletController::class);
         Route::resource('user', AdminUserController::class);
         Route::resource('member', AdminMemberController::class);
-        Route::get('/report', [AdminReportController::class, 'index'])->name('report.index');
+
+        Route::get('/report', [AdminReportController::class, 'index']);
     })
     ->prefix('cashier')
     ->group(function () {
         Route::redirect('/', '/cashier/transaction');
 
-        Route::get('/transaction', [TransactionController::class, 'index']);
-        Route::get('/transaction/find', [TransactionController::class, 'find']);
-        Route::get('/transaction/{memberId}/create', [TransactionController::class, 'create']);
-        Route::post('/transaction', [TransactionController::class, 'store']);
-        Route::get('/transaction/{id}/success', [TransactionController::class, 'success']);
-        Route::get('/transaction/confirmation', [TransactionController::class, 'confirmation']);
-        Route::get('/transaction/{id}/payment', [TransactionController::class, 'payment']);
-        Route::put('/transaction/{id}', [TransactionController::class, 'deal']);
-        Route::get('/transaction/{id}/done', [TransactionController::class, 'done']);
-        Route::get('/transaction/{id}', [TransactionController::class, 'show']);
+        /// transaction index
+        Route::get('/transaction', [CashierTransactionController::class, 'index']);
+
+        /// transaction detail
+        Route::get('/transaction/{id}/detail', [CashierTransactionController::class, 'show']);
+
+        /// transaction create proccess
+        Route::get('/transaction/find', [CashierTransactionController::class, 'find']);
+        Route::get('/transaction/{memberId}/create', [CashierTransactionController::class, 'create']);
+        Route::post('/transaction', [CashierTransactionController::class, 'store']);
+        Route::get('/transaction/{id}/success', [CashierTransactionController::class, 'success']);
+
+        /// transaction confirmation proccess
+        Route::get('/transaction/confirmation', [CashierTransactionController::class, 'confirmation']);
+        Route::get('/transaction/{id}/payment', [CashierTransactionController::class, 'payment']);
+        Route::put('/transaction/{id}', [CashierTransactionController::class, 'deal']);
+        Route::get('/transaction/{id}/done', [CashierTransactionController::class, 'done']);
 
         Route::resource('member', CashierMemberController::class);
-        Route::resource('packet', PacketController::class);
+        Route::resource('packet', CashierPacketController::class);
+
+        Route::get('/report', [CashierReportController::class, 'index']);
     });
