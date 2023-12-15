@@ -7,46 +7,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/plugins/images/favicon.png') }}">
-    <title>Aplikasi Pengelolaan Laundry</title>
 
+    <title>LaundryApp</title>
+
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/plugins/images/favicon.png') }}">
     {{-- Bootstrap Core CSS --}}
-    <link href="{{ asset('assets/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/bootstrap/dist/css/bootstrap.min.css') }}">
     {{-- Menu CSS --}}
-    <link href="{{ asset('assets/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/plugins/bower_components/sidebar-nav/dist/sidebar-nav.min.css') }}">
     {{-- toast CSS --}}
-    <link href="{{ asset('assets/plugins/bower_components/toast-master/css/jquery.toast.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/plugins/bower_components/toast-master/css/jquery.toast.css') }}">
     {{-- morris CSS --}}
-    <link href="{{ asset('assets/plugins/bower_components/morrisjs/morris.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/plugins/bower_components/morrisjs/morris.css') }}">
     {{-- chartist CSS --}}
-    <link href="{{ asset('assets/plugins/bower_components/chartist-js/dist/chartist.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('assets/plugins/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/plugins/bower_components/chartist-js/dist/chartist.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/plugins/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.css') }}">
     {{-- animation CSS --}}
-    <link href="{{ asset('assets/css/animate.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/animate.css') }}">
     {{-- Custom CSS --}}
-    <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}">
     {{-- color CSS --}}
-    <link href="{{ asset('assets/css/colors/default.css') }}" id="theme" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/colors/default.css') }}" id="theme">
     {{-- DataTables --}}
-    <link href="{{ asset('assets/DataTables/datatables.min.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/DataTables/datatables.min.css') }}" />
 </head>
 
 <body class="fix-header">
-    {{-- Preloader --}}
-    {{-- @if ($title == 'dashboard')
-        <div class="preloader">
-            <svg class="circular" viewBox="25 25 50 50">
-                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" />
-            </svg>
-        </div>
-    @endif --}}
 
     <div id="wrapper">
         @include('cashier.partials.navbar')
         @include('cashier.partials.sidebar')
         <div id="page-wrapper">
             @yield('content')
-            <footer class="footer text-center"> 2017 &copy; Ample Admin brought to you by wrappixel.com </footer>
+            <footer class="footer text-center"> 2024 &copy; made with love </footer>
         </div>
     </div>
 
@@ -67,13 +60,14 @@
     <script src="{{ asset('assets/plugins/bower_components/chartist-plugin-tooltip-master/dist/chartist-plugin-tooltip.min.js') }}"></script>
     {{-- Sparkline chart JavaScript --}}
     <script src="{{ asset('assets/plugins/bower_components/jquery-sparkline/jquery.sparkline.min.js') }}"></script>
-    <script src="{{ asset('assets/DataTables/datatables.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
     {{-- Custom Theme JavaScript --}}
     <script src="{{ asset('assets/js/dashboard1.js') }}"></script>
     <script src="{{ asset('assets/js/custom.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/bower_components/toast-master/js/jquery.toast.js') }}"></script>
+    {{-- Custom Script --}}
     <script>
-        $('#btn_hapus').on('click', () => {
+        $('#btn_delete').on('click', () => {
             return confirm('Yakin Menghapus data ?');
         });
 
@@ -113,13 +107,12 @@
 
         $('#btn-refresh').on('click', () => {
             $('#ic-refresh').addClass('fa-spin');
-            var oldURL = window.location.href;
-            var index = 0;
-            var newURL = oldURL;
+            let oldURL = window.location.href;
+            let index = 0;
+            let newURL = oldURL;
             index = oldURL.indexOf('?');
             if (index == -1) {
                 window.location = window.location.href;
-
             }
             if (index != -1) {
                 window.location = oldURL.substring(0, index)
@@ -127,19 +120,19 @@
         });
     </script>
 
-    {{-- Toast --}}
-    @if (session()->has('success'))
+    {{-- Alert Message --}}
+    @if (session()->has('alert'))
         <script type="text/javascript">
-            // var title = "Berhasil";
-            // var msg = "Berhasil menambahkan data";
-            // var type = "success";
+            const title = '{{ session('title') }}';
+            const message = '{{ session('message') }}';
+            const type = '{{ session('type') }}';
 
             $.toast({
-                heading: 'Berhasil',
-                text: "Berhasil menambahkan data",
+                heading: title,
+                text: message,
                 position: 'top-right',
                 loaderBg: '#fff',
-                icon: "success",
+                icon: type,
                 hideAfter: 3500,
                 stack: 6
             })

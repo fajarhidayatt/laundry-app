@@ -19,7 +19,7 @@
             <li>
                 <a class="profile-pic" href="#" style="pointer-events: none;">
                     <img src="{{ asset('assets/plugins/images/users/varun.jpg') }}" alt="user-img" width="36" class="img-circle">
-                    <b class="hidden-xs">ADMIN</b>
+                    <b class="hidden-xs">KASIR</b>
                 </a>
             </li>
         </ul>
