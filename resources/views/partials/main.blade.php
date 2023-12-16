@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>LaundryApp</title>
+    <title>LaundryApp | {{ ucfirst(Auth::user()->role) }}</title>
 
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/plugins/images/favicon.png') }}">
     {{-- Bootstrap Core CSS --}}
@@ -35,11 +35,19 @@
 <body class="fix-header">
 
     <div id="wrapper">
-        @include('cashier.partials.navbar')
-        @include('cashier.partials.sidebar')
+        @include('partials.navbar')
+
+        @if (Auth::user()->role === 'admin')
+            @include('partials.admin-sidebar')
+        @elseif (Auth::user()->role === 'owner')
+            @include('partials.owner-sidebar')
+        @elseif (Auth::user()->role === 'kasir')
+            @include('partials.cashier-sidebar')
+        @endif
+        
         <div id="page-wrapper">
             @yield('content')
-            <footer class="footer text-center"> 2024 &copy; made with love </footer>
+            <footer class="footer text-center"> {{ now()->format('Y') }} &copy; made with love </footer>
         </div>
     </div>
 

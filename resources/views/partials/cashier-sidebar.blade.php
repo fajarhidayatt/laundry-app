@@ -25,7 +25,7 @@
             </li>
             <li>
                 <a href="/cashier/packet" class="waves-effect">
-                    <i class="fa fa-suitcase fa-fw" aria-hidden="true"></i>
+                    <i class="fa fa-archive fa-fw" aria-hidden="true"></i>
                     <span>Paket</span>
                 </a>
             </li>
