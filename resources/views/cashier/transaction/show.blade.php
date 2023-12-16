@@ -46,6 +46,10 @@
                         <input type="text" class="form-control" value="{{ $transaction->outlet->name }}" disabled>
                     </div>
                     <div class="form-group">
+                        <label>Kasir</label>
+                        <input type="text" class="form-control" value="{{ $transaction->user->name }}" disabled>
+                    </div>
+                    <div class="form-group">
                         <label>Pelanggan</label>
                         <input type="text" class="form-control" value="{{ $transaction->member->name }}" disabled>
                     </div>

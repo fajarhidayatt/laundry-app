@@ -161,7 +161,7 @@ class TransactionController extends Controller
 
     public function show(string $id)
     {
-        $transaction = Transaction::with(['member', 'outlet', 'detailTransaction'])->find($id);
+        $transaction = Transaction::with(['member', 'user', 'outlet', 'detailTransaction'])->find($id);
 
         return view('cashier.transaction.show', [
             'transaction' => $transaction
