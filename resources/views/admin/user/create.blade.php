@@ -1,19 +1,18 @@
-@extends('admin.partials.main');
+@extends('admin.partials.main')
 
 @section('content')
-    
 <div class="container-fluid">
     <div class="row bg-title">
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-            <h4 class="page-title">Edit User</h4>
+            <h4 class="page-title">Tambah Pengguna</h4>
         </div>
         <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
             <ol class="breadcrumb">
                 <li>
-                    <span>User</span>
+                    <span>Pengguna</span>
                 </li>
                 <li>
-                    <span>Tambah User</span>
+                    <span>Tambah Pengguna</span>
                 </li>
             </ol>
         </div>
@@ -44,19 +43,19 @@
                     @csrf
                     <div class="form-group">
                         <label for="name">Nama Pengguna</label>
-                        <input type="text" name="name" id="name" class="form-control">
+                        <input type="text" name="name" id="name" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="text" name="username" id="username" class="form-control">
+                        <input type="text" name="username" id="username" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="text" name="password" id="password" class="form-control">
+                        <input type="text" name="password" id="password" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="role">Role</label>
-                        <select name="role" id="role" class="form-control">
+                        <select name="role" id="role" class="form-control" required>
                             <option value="admin">Admin</option>
                             <option value="owner">Owner</option>
                             <option value="kasir">Kasir</option>
@@ -94,5 +93,4 @@
         }
     })
 </script>
-
 @endsection

@@ -4,15 +4,15 @@
 <div class="container-fluid">
     <div class="row bg-title">
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
-            <h4 class="page-title">Edit Outlet</h4>
+            <h4 class="page-title">Edit Pengguna</h4>
         </div>
         <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
             <ol class="breadcrumb">
                 <li>
-                    <span>Outlet</span>
+                    <span>Pengguna</span>
                 </li>
                 <li>
-                    <span>Tambah Outlet</span>
+                    <span>Edit Pengguna</span>
                 </li>
             </ol>
         </div>
@@ -44,11 +44,11 @@
                     @method('PUT')
                     <div class="form-group">
                         <label for="name">Nama Pengguna</label>
-                        <input type="text" name="name" id="name" class="form-control" value="{{ $user->name }}">
+                        <input type="text" name="name" id="name" class="form-control" required value="{{ $user->name }}">
                     </div>
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="text" name="username" id="username" class="form-control" value="{{ $user->username }}">
+                        <input type="text" name="username" id="username" class="form-control" required value="{{ $user->username }}">
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
@@ -57,7 +57,7 @@
                     </div>
                     <div class="form-group">
                         <label for="role">Role</label>
-                        <select name="role" id="role" class="form-control">
+                        <select name="role" id="role" class="form-control" required>
                             <option value="{{ $user->role }}" selected hidden>{{ ucfirst($user->role) }}</option>
                             <option value="admin">Admin</option>
                             <option value="owner">Owner</option>
