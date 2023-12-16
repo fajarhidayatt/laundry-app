@@ -12,7 +12,8 @@ class PacketController extends Controller
 {
     public function index()
     {
-        $packets = Packet::all();
+        $outletId = Auth::user()->outlet_id;
+        $packets = Packet::all()->where('outlet_id', $outletId);
 
         return view('cashier.packet.index', [
             'packets' => $packets

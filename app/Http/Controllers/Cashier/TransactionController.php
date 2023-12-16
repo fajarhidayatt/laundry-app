@@ -16,7 +16,10 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        $transactions = Transaction::with(['member', 'detailTransaction'])->get();
+        $outletId = Auth::user()->outlet_id;
+        $transactions = Transaction::with(['member', 'detailTransaction'])
+            ->where('outlet_id', $outletId)
+            ->get();
 
         return view('cashier.transaction.index', [
             'transactions' => $transactions
@@ -98,8 +101,10 @@ class TransactionController extends Controller
 
     public function confirmation()
     {
+        $outletId = Auth::user()->outlet_id;
         $transactions = Transaction::with(['member', 'detailTransaction'])
             ->where('payment_status', 'belum')
+            ->where('outlet_id', $outletId)
             ->get();
 
         return view('cashier.transaction.confirmation', [
@@ -121,6 +126,7 @@ class TransactionController extends Controller
     {
         $paymentDate = Carbon::now('asia/jakarta')->toDateTimeString();
 
+        /// berikan alert jika uang pembayaran kurang
         if ($request->total_payment < $request->total_price) {
             return redirect("/cashier/transaction/$id/payment")->with([
                 'alert' => true,
@@ -139,7 +145,7 @@ class TransactionController extends Controller
         $detailTransaction = detailTransaction::where('transaction_id', $id)->first();
         $detailTransaction->update([
             'total_payment' => $request->total_payment,
-        ]); /// update jumlah pembayaran
+        ]); /// update total pembayaran
 
         return redirect("/cashier/transaction/$id/done");
     }

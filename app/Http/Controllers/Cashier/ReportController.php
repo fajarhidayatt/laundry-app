@@ -12,8 +12,11 @@ class ReportController extends Controller
 {
     public function index()
     {
+        $outletId = Auth::user()->outlet_id;
+
         $annualIncome = Transaction::with('detailTransaction')
             ->where('payment_status', 'lunas')
+            ->where('outlet_id', $outletId)
             ->whereYear('payment_date', Carbon::now()->year)
             ->get()
             ->sum(function ($transaction) {
@@ -22,6 +25,7 @@ class ReportController extends Controller
 
         $monthlyIncome = Transaction::with('detailTransaction')
             ->where('payment_status', 'lunas')
+            ->where('outlet_id', $outletId)
             ->whereMonth('payment_date', Carbon::now()->month)
             ->get()
             ->sum(function ($transaction) {
@@ -30,6 +34,7 @@ class ReportController extends Controller
 
         $weeklyIncome = Transaction::with('detailTransaction')
             ->where('payment_status', 'lunas')
+            ->where('outlet_id', $outletId)
             ->whereBetween('payment_date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
             ->get()
             ->sum(function ($transaction) {
@@ -46,7 +51,7 @@ class ReportController extends Controller
             ->join('transactions', 'transactions.id', '=', 'detail_transactions.transaction_id')
             ->join('packets', 'packets.id', '=', 'detail_transactions.packet_id')
             ->where('transactions.payment_status', '=', 'lunas')
-            ->where('packets.outlet_id', '=', Auth::user()->outlet_id)
+            ->where('packets.outlet_id', '=', $outletId)
             ->groupBy('detail_transactions.packet_id')
             ->get();
 
