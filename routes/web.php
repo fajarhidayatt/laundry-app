@@ -15,6 +15,12 @@ use App\Http\Controllers\Cashier\TransactionController as CashierTransactionCont
 use App\Http\Controllers\Cashier\MemberController as CashierMemberController;
 use App\Http\Controllers\Cashier\PacketController as CashierPacketController;
 use App\Http\Controllers\Cashier\ReportController as CashierReportController;
+
+/// Owner Controller
+use App\Http\Controllers\Owner\DashboardController as OwnerDashboardController;
+use App\Http\Controllers\Owner\ReportController as OwnerReportController;
+use App\Http\Controllers\Owner\TransactionController as OwnerTransactionController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -71,4 +77,10 @@ Route::middleware('auth')
         Route::resource('packet', CashierPacketController::class);
 
         Route::get('/report', [CashierReportController::class, 'index']);
+    })
+    ->prefix('owner')
+    ->group(function () {
+        Route::get('/', [OwnerDashboardController::class, 'index']);
+        Route::get('/report', [OwnerReportController::class, 'index']);
+        Route::get('/transaction/{id}/detail', [OwnerTransactionController::class, 'detail']);
     });
