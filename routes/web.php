@@ -35,12 +35,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::redirect('/', '/login');
-Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
 
-Route::middleware('auth')
-    ->prefix('admin')
+Route::prefix('admin')
+    ->middleware(['auth', 'role:admin'])
     ->group(function () {
         Route::get('/', [AdminDashboardController::class, 'index']);
 
@@ -49,8 +49,11 @@ Route::middleware('auth')
         Route::resource('member', AdminMemberController::class);
 
         Route::get('/report', [AdminReportController::class, 'index']);
-    })
-    ->prefix('cashier')
+    });
+
+Route::redirect('/kasir', '/cashier');
+Route::prefix('cashier')
+    ->middleware(['auth', 'role:kasir'])
     ->group(function () {
         Route::redirect('/', '/cashier/transaction');
 
@@ -77,8 +80,10 @@ Route::middleware('auth')
         Route::resource('packet', CashierPacketController::class);
 
         Route::get('/report', [CashierReportController::class, 'index']);
-    })
-    ->prefix('owner')
+    });
+
+Route::prefix('owner')
+    ->middleware(['auth', 'role:owner'])
     ->group(function () {
         Route::get('/', [OwnerDashboardController::class, 'index']);
         Route::get('/report', [OwnerReportController::class, 'index']);
