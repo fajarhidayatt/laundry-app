@@ -22,11 +22,15 @@ class AuthController extends Controller
         if (Auth::attempt($credential)) {
             $request->session()->regenerate();
 
-            if (Auth::user()->role === 'admin') {
+            $user = Auth::user();
+
+            if ($user->role === 'admin') {
                 return redirect('/admin');
-            } else if (Auth::user()->role === 'owner') {
+            } else if ($user->role === 'owner') {
+                if (!$user->outlet_id) return back()->with('error', 'anda belum memiliki outlet'); /// jika owner belum memiliki outlet
+
                 return redirect('/owner');
-            } else if (Auth::user()->role === 'kasir') {
+            } else if ($user->role === 'kasir') {
                 return redirect('/cashier');
             }
         }
