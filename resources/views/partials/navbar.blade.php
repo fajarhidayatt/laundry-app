@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default navbar-static-top m-b-0">
     <div class="navbar-header">
         <div class="top-left-part">
-            <a class="logo" href="index.php">
+            <a class="logo" href="#" style="pointer-events: none;">
                 <b style="color:black">
                     LAUNDRY
                 </b>
@@ -18,8 +18,9 @@
             </li>
             <li>
                 <a class="profile-pic" href="#" style="pointer-events: none;">
-                    <img src="{{ asset('assets/plugins/images/users/varun.jpg') }}" alt="user-img" width="36" class="img-circle">
-                    <b class="hidden-xs">{{ Auth::user()->name . " | " . ucfirst(Auth::user()->role) }}</b>
+                    <img src="{{ asset('assets/plugins/images/users/varun.jpg') }}" alt="user-img" width="36"
+                        class="img-circle">
+                    <b class="hidden-xs">{{ Auth::user()->name . ' | ' . ucfirst(Auth::user()->role) }}</b>
                 </a>
             </li>
         </ul>
