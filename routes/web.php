@@ -35,20 +35,20 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::redirect('/', '/login');
-Route::get('/login', [AuthController::class, 'index'])->name('login')->middleware('guest');
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth');
+Route::get('/login', [AuthController::class, 'index'])->name('login.view')->middleware('guest');
+Route::post('/login', [AuthController::class, 'login'])->name('login')->middleware('guest');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::prefix('admin')
     ->middleware(['auth', 'role:admin'])
     ->group(function () {
-        Route::get('/', [AdminDashboardController::class, 'index']);
+        Route::get('/', [AdminDashboardController::class, 'index'])->name('admin');
 
-        Route::resource('outlet', AdminOutletController::class);
-        Route::resource('user', AdminUserController::class);
-        Route::resource('member', AdminMemberController::class);
+        Route::resource('outlet', AdminOutletController::class, ['as' => 'admin']);
+        Route::resource('user', AdminUserController::class, ['as' => 'admin']);
+        Route::resource('member', AdminMemberController::class, ['as' => 'admin']);
 
-        Route::get('/report', [AdminReportController::class, 'index']);
+        Route::get('/report', [AdminReportController::class, 'index'])->name('admin.report.index');
     });
 
 Route::redirect('/kasir', '/cashier');
@@ -58,34 +58,34 @@ Route::prefix('cashier')
         Route::redirect('/', '/cashier/transaction');
 
         /// transaction index
-        Route::get('/transaction', [CashierTransactionController::class, 'index']);
+        Route::get('/transaction', [CashierTransactionController::class, 'index'])->name('cashier.transaction.index');
 
         /// transaction detail
-        Route::get('/transaction/{id}/detail', [CashierTransactionController::class, 'show']);
-        Route::put('/transaction/{id}/status', [CashierTransactionController::class, 'updateStatus']);
+        Route::get('/transaction/{id}/detail', [CashierTransactionController::class, 'show'])->name('cashier.transaction.show');
+        Route::put('/transaction/{id}/status', [CashierTransactionController::class, 'updateStatus'])->name('cashier.transaction.update-status');
 
         /// transaction create proccess
-        Route::get('/transaction/find', [CashierTransactionController::class, 'find']);
-        Route::get('/transaction/{memberId}/create', [CashierTransactionController::class, 'create']);
-        Route::post('/transaction', [CashierTransactionController::class, 'store']);
-        Route::get('/transaction/{id}/success', [CashierTransactionController::class, 'success']);
+        Route::get('/transaction/find', [CashierTransactionController::class, 'find'])->name('cashier.transaction.find');
+        Route::get('/transaction/{memberId}/create', [CashierTransactionController::class, 'create'])->name('cashier.transaction.create');
+        Route::post('/transaction', [CashierTransactionController::class, 'store'])->name('cashier.transaction.store');
+        Route::get('/transaction/{id}/success', [CashierTransactionController::class, 'success'])->name('cashier.transaction.success');
 
         /// transaction confirmation proccess
-        Route::get('/transaction/confirmation', [CashierTransactionController::class, 'confirmation']);
-        Route::get('/transaction/{id}/payment', [CashierTransactionController::class, 'payment']);
-        Route::put('/transaction/{id}', [CashierTransactionController::class, 'deal']);
-        Route::get('/transaction/{id}/done', [CashierTransactionController::class, 'done']);
+        Route::get('/transaction/confirmation', [CashierTransactionController::class, 'confirmation'])->name('cashier.transaction.confirmation');
+        Route::get('/transaction/{id}/payment', [CashierTransactionController::class, 'payment'])->name('cashier.transaction.payment');
+        Route::put('/transaction/{id}', [CashierTransactionController::class, 'deal'])->name('cashier.transaction.deal');
+        Route::get('/transaction/{id}/done', [CashierTransactionController::class, 'done'])->name('cashier.transaction.done');
 
-        Route::resource('member', CashierMemberController::class);
-        Route::resource('packet', CashierPacketController::class);
+        Route::resource('member', CashierMemberController::class, ['as' => 'cashier']);
+        Route::resource('packet', CashierPacketController::class, ['as' => 'cashier']);
 
-        Route::get('/report', [CashierReportController::class, 'index']);
+        Route::get('/report', [CashierReportController::class, 'index'])->name('cashier.report.index');
     });
 
 Route::prefix('owner')
     ->middleware(['auth', 'role:owner'])
     ->group(function () {
-        Route::get('/', [OwnerDashboardController::class, 'index']);
-        Route::get('/report', [OwnerReportController::class, 'index']);
-        Route::get('/transaction/{id}/detail', [OwnerTransactionController::class, 'detail']);
+        Route::get('/', [OwnerDashboardController::class, 'index'])->name('owner');
+        Route::get('/report', [OwnerReportController::class, 'index'])->name('owner.report.index');
+        Route::get('/transaction/{id}/detail', [OwnerTransactionController::class, 'detail'])->name('owner.transaction.detail');
     });

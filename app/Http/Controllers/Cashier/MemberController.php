@@ -28,7 +28,7 @@ class MemberController extends Controller
 
         Member::create($data);
 
-        return redirect('/cashier/member')->with([
+        return redirect()->route('cashier.member.index')->with([
             'alert' => true,
             'title' => 'Berhasil',
             'message' => 'Berhasil tambah data pelanggan',
@@ -52,7 +52,7 @@ class MemberController extends Controller
 
         $member->update($data);
 
-        return redirect('/cashier/member')->with([
+        return redirect()->route('cashier.member.index')->with([
             'alert' => true,
             'title' => 'Berhasil',
             'message' => 'Berhasil ubah data pelanggan',
@@ -66,7 +66,7 @@ class MemberController extends Controller
 
         $member->delete();
 
-        return redirect('/cashier/member')->with([
+        return redirect()->route('cashier.member.index')->with([
             'alert' => true,
             'title' => 'Berhasil',
             'message' => 'Berhasil hapus data pelanggan',

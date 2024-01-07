@@ -29,7 +29,7 @@ class OutletController extends Controller
 
         Outlet::create($data);
 
-        return redirect('/admin/outlet')->with([
+        return redirect()->route('admin.outlet.index')->with([
             'alert' => true,
             'title' => 'Berhasil',
             'message' => 'Berhasil tambah data outlet',
@@ -75,7 +75,7 @@ class OutletController extends Controller
             'phone_number' => $request->phone_number
         ]);
 
-        return redirect('/admin/outlet')->with([
+        return redirect()->route('admin.outlet.index')->with([
             'alert' => true,
             'title' => 'Berhasil',
             'message' => 'Berhasil ubah data outlet',
@@ -89,7 +89,7 @@ class OutletController extends Controller
 
         $outlet->delete();
 
-        return redirect('/admin/outlet')->with([
+        return redirect()->route('admin.outlet.index')->with([
             'alert' => true,
             'title' => 'Berhasil',
             'message' => 'Berhasil hapus data outlet',

@@ -87,7 +87,7 @@ class TransactionController extends Controller
             'total_price' => $totalPrice,
         ]);
 
-        return redirect("/cashier/transaction/$transaction->id/success");
+        return redirect()->route('cashier.transaction.success', $transaction->id);
     }
 
     public function success($id)
@@ -128,7 +128,7 @@ class TransactionController extends Controller
 
         /// berikan alert jika uang pembayaran kurang
         if ($request->total_payment < $request->total_price) {
-            return redirect("/cashier/transaction/$id/payment")->with([
+            return redirect()->route('cashier.transaction.payment', $id)->with([
                 'alert' => true,
                 'title' => 'Gagal',
                 'message' => 'Jumlah uang pembayaran kurang',
@@ -147,7 +147,7 @@ class TransactionController extends Controller
             'total_payment' => $request->total_payment,
         ]); /// update total pembayaran
 
-        return redirect("/cashier/transaction/$id/done");
+        return redirect()->route('cashier.transaction.done', $id);
     }
 
     public function done(string $id)
@@ -175,7 +175,7 @@ class TransactionController extends Controller
             'status' => $request->status,
         ]); /// update status transaksi
 
-        return redirect('/cashier/transaction')->with([
+        return redirect()->route('cashier.transaction.index')->with([
             'alert' => true,
             'title' => 'Berhasil',
             'message' => 'Berhasil update status transaksi',

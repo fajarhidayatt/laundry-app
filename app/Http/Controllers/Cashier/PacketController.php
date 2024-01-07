@@ -36,7 +36,7 @@ class PacketController extends Controller
 
         Packet::create($data);
 
-        return redirect('/cashier/packet')->with([
+        return redirect()->route('cashier.packet.index')->with([
             'alert' => true,
             'title' => 'Berhasil',
             'message' => 'Berhasil tambah data paket',
@@ -60,7 +60,7 @@ class PacketController extends Controller
 
         $packet->update($data);
 
-        return redirect('/cashier/packet')->with([
+        return redirect()->route('cashier.packet.index')->with([
             'alert' => true,
             'title' => 'Berhasil',
             'message' => 'Berhasil ubah data paket',
@@ -74,7 +74,7 @@ class PacketController extends Controller
 
         $packet->delete();
 
-        return redirect('/cashier/packet')->with([
+        return redirect()->route('cashier.packet.index')->with([
             'alert' => true,
             'title' => 'Berhasil',
             'message' => 'Berhasil hapus data paket',

@@ -33,7 +33,7 @@ class UserController extends Controller
 
         User::create($data);
 
-        return redirect('/admin/user')->with([
+        return redirect()->route('admin.user.index')->with([
             'alert' => true,
             'title' => 'Berhasil',
             'message' => 'Berhasil tambah data user',
@@ -70,7 +70,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect('/admin/user')->with([
+        return redirect()->route('admin.user.index')->with([
             'alert' => true,
             'title' => 'Berhasil',
             'message' => 'Berhasil ubah data user',
@@ -84,7 +84,7 @@ class UserController extends Controller
 
         $user->delete();
 
-        return redirect('/admin/user')->with([
+        return redirect()->route('admin.user.index')->with([
             'alert' => true,
             'title' => 'Berhasil',
             'message' => 'Berhasil hapus data user',

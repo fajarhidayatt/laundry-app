@@ -12,20 +12,20 @@
         {{-- End Mobiel View --}}
         <ul class="nav" id="side-menu">
             <li style="padding: 70px 0 0;">
-                <a href="/owner" class="waves-effect">
+                <a href="{{ route('owner') }}" class="waves-effect">
                     <i class="fa fa-tachometer fa-fw" aria-hidden="true"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
             <li>
-                <a href="/owner/report" class="waves-effect">
+                <a href="{{ route('owner.report.index') }}" class="waves-effect">
                     <i class="fa fa-file-text fa-fw" aria-hidden="true"></i>
                     <span>Laporan</span>
                 </a>
             </li>
         </ul>
         <div class="center p-20">
-            <form action="/logout" method="post">
+            <form action="{{ route('logout') }}" method="post">
                 @csrf
                 <button class="btn btn-danger btn-block waves-effect waves-light">Logout</button>
             </form>
